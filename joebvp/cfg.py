@@ -26,24 +26,26 @@ islocal = False
 
 Todd = False
 if Todd:
-    lsf='COS_LP1'
-    instr=['COS','COS','COS','COS','STIS']
+    instr=['COS','COS','COS','COS','STIS']  # Options in include 'COS', 'STIS', 'Gaussian'
     gratings=['G130M','G160M','G185M','G225M','E230M']
-    slits=['NA','NA','NA','NA','0.2x0.2']
-    lsfranges=np.array([[1100,1400],[1400,1800],[1800,2100],[2100,2278],[2278,4100]])
-    lps=['1','1','1','1','1']
+    slits=['NA','NA','NA','NA','0.2x0.2']  # Required when using instr = 'STIS'
+    lsfranges=np.array([[1100,1460],[1460,1800],[1800,2100],[2100,2278],[2278,4100]])
+    lps=['1','1','1','1','1']  # Lifetime positions; required when using instr = 'COS'
     cen_wave=['1327','1600','1953','2250','2707']
     spectral_gaps = []
+    pixel_scales = ['N/A','N/A','N/A','N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
+    fwhms = ['N/A','N/A','N/A','N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
 
 else:  # this is for the casual user
-    lsf='COS_LP1' # not being used, is it?
-    instr=['COS','COS']
+    instr=['COS','COS']  # Options in include 'COS', 'STIS', 'Gaussian'
     lsfranges=np.array([[1130,1450],[1450,1800]])
     gratings=['G130M','G160M']
     cen_wave=['1291','1611']
-    slits=['NA','NA']
-    lps=['2','2']
+    slits=['NA','NA']  # Required when using instr = 'COS'
+    lps=['2','2']  # Lifetime positions; required when using instr = 'COS'
     spectral_gaps = [[0,1162.5], [1198,1201.5], [1213.3, 1217.93], [1299.3,1321.6],[1596,1612.8],[1782,2000]]
+    pixel_scales = ['N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
+    fwhms = ['N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
 
 # fundamental constants
 echarge = 4.803204505713468e-10

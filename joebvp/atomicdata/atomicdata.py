@@ -4,8 +4,11 @@ from .. import joebgoodies as jbg
 import numpy as np
 from linetools.spectralline import AbsLine
 from linetools.lists import parse as lilp
+from linetools.lists.linelist import LineList
 import astropy.units as u
 import imp
+
+ilist = LineList('ISM')
 
 jbvp_path = imp.find_module('joebvp')[1]
 
@@ -27,11 +30,11 @@ vdata=lilp.parse_verner96()
 for i in range(len(vernion)):
     vernion[i]=vernion[i].strip()
 
-def setatomicdata(lines,precise=True):
+def setatomicdata(lines,precise=True,linelist=ilist):
 	lam=np.zeros(len(lines)) ; fosc=np.zeros(len(lines)) ; gam=np.zeros(len(lines))
 	for i,ll in enumerate(lines):
 		try:
-			al=AbsLine(ll*u.AA,closest=True)
+			al=AbsLine(ll*u.AA,closest=True,linelist=linelist)
 			lam[i]=al.data['wrest'].value ; fosc[i]=al.data['f'] ; gam[i]=al.data['gamma'].value
 		except:
 			idx=jbg.closest(adata['wrest'],ll)
