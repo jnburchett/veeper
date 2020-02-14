@@ -33,8 +33,8 @@ if Todd:
     lps=['1','1','1','1','1']  # Lifetime positions; required when using instr = 'COS'
     cen_wave=['1327','1600','1953','2250','2707']
     spectral_gaps = []
-    pixel_scales = []  # Required when using instr = 'Gaussian' (in Angstroms)
-    fwhms = []  # Required when using instr = 'Gaussian' (in Angstroms)
+    pixel_scales = ['N/A','N/A','N/A','N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
+    fwhms = ['N/A','N/A','N/A','N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
 
 else:  # this is for the casual user
     instr=['COS','COS']  # Options in include 'COS', 'STIS', 'Gaussian'
@@ -44,8 +44,8 @@ else:  # this is for the casual user
     slits=['NA','NA']  # Required when using instr = 'COS'
     lps=['2','2']  # Lifetime positions; required when using instr = 'COS'
     spectral_gaps = [[0,1162.5], [1198,1201.5], [1213.3, 1217.93], [1299.3,1321.6],[1596,1612.8],[1782,2000]]
-    pixel_scales = []  # Required when using instr = 'Gaussian' (in Angstroms)
-    fwhms = []  # Required when using instr = 'Gaussian' (in Angstroms)
+    pixel_scales = ['N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
+    fwhms = ['N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
 
 # fundamental constants
 echarge = 4.803204505713468e-10
