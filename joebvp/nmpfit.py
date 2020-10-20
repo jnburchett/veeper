@@ -2200,7 +2200,7 @@ e.g. mpfit.status, mpfit.errmsg, mpfit.params, npfit.niter, mpfit.covar.
     def calc_covar(self, rr, ipvt=None, tol=1.e-14):
 
         if (self.debug): print('Entering calc_covar...')
-        if numpy.rank(rr) != 2:
+        if len(rr.shape) != 2:
             print('ERROR: r must be a two-dimensional matrix')
             return(-1)
         s = numpy.shape(rr)
