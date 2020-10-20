@@ -117,7 +117,10 @@ def get_lsfs():
                 fg = inds_left + fg.tolist() + inds_right
                 fg = np.array(fg)
                 print("New fg is: {}".format(fg))
-            lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(cfg.wave[fg] * u.AA, kind='cubic')
+            try:
+                lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(cfg.wave[fg] * u.AA, kind='cubic')
+            except:
+                import pdb; pdb.set_trace()
 
 
             # except:
