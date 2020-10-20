@@ -618,8 +618,8 @@ def batch_fit(spec, filelist, outparfile='.VP', outmodelfile='_VPmodel.fits', in
     if isinstance(filelist, str):
         lstarr=np.genfromtxt(filelist,dtype=None)
         listofiles=lstarr.tolist()
-        if isinstance(listofiles,str):  # In case 'listofiles' is only 1 file
-            listofiles=[listofiles]
+        if sum(1 for line in open(filelist)) == 1:
+            listofiles = [listofiles]
     else:
         listofiles=filelist
 
