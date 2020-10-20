@@ -36,7 +36,8 @@ if Todd:
     pixel_scales = ['N/A','N/A','N/A','N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
     fwhms = ['N/A','N/A','N/A','N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
 
-else:  # this is for the casual user
+else:
+    # sample parameters for the casual COS user
     instr=['COS','COS']  # Options in include 'COS', 'STIS', 'Gaussian'
     lsfranges=np.array([[1130,1450],[1450,1800]])
     gratings=['G130M','G160M']
@@ -46,6 +47,12 @@ else:  # this is for the casual user
     spectral_gaps = [[0,1162.5], [1198,1201.5], [1213.3, 1217.93], [1299.3,1321.6],[1596,1612.8],[1782,2000]]
     pixel_scales = ['N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
     fwhms = ['N/A','N/A']  # Required when using instr = 'Gaussian' (in Angstroms)
+    ### Comment the above and uncomment below for sample Gaussian LSF parameters
+    '''instr = ['Gaussian']  # Options in include 'COS', 'STIS', 'Gaussian'
+    lsfranges = np.array([[3500, 10000]])
+    spectral_gaps = []
+    pixel_scales = [0.03]  # Required when using instr = 'Gaussian' (in Angstroms)
+    fwhms = [0.1413]  # Required when using instr = 'Gaussian' (in Angstroms)'''
 
 # fundamental constants
 echarge = 4.803204505713468e-10
@@ -69,7 +76,7 @@ largeVPparfile = outputdir + '_VP_log.dat'
 defaultcol = 13.1
 defaultb = 20.0
 defaultvlim = 1000.
-lowblim = 4.
+lowblim = 1.
 upperblim = 85.
 upperblim_HI = 210.
 

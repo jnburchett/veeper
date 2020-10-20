@@ -103,7 +103,6 @@ def get_lsfs():
         else:
             lamobs=np.median(cfg.wave[fg])
             lsfmatch = jbg.wherebetween(lamobs, cfg.lsfranges[:, 0], cfg.lsfranges[:, 1])
-            lfg = len(fg)
             if len(fg) < 10:
                 print("Line at {:.2f} AA is undersampling the LSF. Will increase number of pixels at either side to"
                     " include at least 10.".format(lamobs))
