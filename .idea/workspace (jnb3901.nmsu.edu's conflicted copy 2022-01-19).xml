@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="915b9a8d-e8d5-4daf-b094-7d789141c608" name="Default" comment="handle batch list with only one file">
+      <change beforePath="$PROJECT_DIR$/joebvp/cfg.py" beforeDir="false" afterPath="$PROJECT_DIR$/joebvp/cfg.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/joebvp$VPmeasure.coverage" NAME="VPmeasure Coverage Results" MODIFIED="1472137560142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/joebvp" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Joe" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="batch_fix" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="d4472df0-787a-4eac-8f2f-949ebc19fe9f" />
+  <component name="ProjectId" id="1e8ax3mXahSlMpbwCFhH4RLeGLI" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="74" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="76" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="79" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="866" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="74" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="76" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="79" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="866" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/docs" />
+      <recent name="$PROJECT_DIR$/joebvp/LSF/COS_LP1" />
+      <recent name="$PROJECT_DIR$/joebvp" />
+      <recent name="$PROJECT_DIR$/joebvp/atomicdata" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/joebvp" />
+      <recent name="$PROJECT_DIR$/joebvp/atomicdata" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="tests" factoryName="Attests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="joebvp" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <module name="joebvp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="VPmeasure" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="joebvp" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/joebvp" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/joebvp/VPmeasure.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.VPmeasure" />
+        <item itemvalue="Python.VPmeasure" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="915b9a8d-e8d5-4daf-b094-7d789141c608" name="Default" comment="" />
+      <created>1453052195205</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1453052195205</updated>
+      <workItem from="1593705923663" duration="1863000" />
+      <workItem from="1593711897095" duration="725000" />
+      <workItem from="1594917325247" duration="2586000" />
+      <workItem from="1595867359198" duration="1014000" />
+      <workItem from="1599777037024" duration="1648000" />
+      <workItem from="1603236743468" duration="448000" />
+      <workItem from="1603237419924" duration="1213000" />
+      <workItem from="1605683878330" duration="929000" />
+      <workItem from="1605821730891" duration="128000" />
+      <workItem from="1617039779944" duration="612000" />
+      <workItem from="1617334987947" duration="598000" />
+      <workItem from="1619534833090" duration="639000" />
+      <workItem from="1620167728886" duration="365000" />
+      <workItem from="1626797392634" duration="239000" />
+      <workItem from="1626886475723" duration="1480000" />
+      <workItem from="1636483729657" duration="1089000" />
+      <workItem from="1640730753152" duration="633000" />
+      <workItem from="1642532657764" duration="649000" />
+    </task>
+    <task id="LOCAL-00077" summary="linetools atomicdata retrieval fix">
+      <created>1487862804800</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1487862804801</updated>
+    </task>
+    <task id="LOCAL-00078" summary="nothing">
+      <created>1490195302885</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1490195302886</updated>
+    </task>
+    <task id="LOCAL-00079" summary="stripping out debugging comments&#10;">
+      <created>1490195677212</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1490195677213</updated>
+    </task>
+    <task id="LOCAL-00080" summary="preserving Tripp's cfg.py settings with comments">
+      <created>1493919506053</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1493919506053</updated>
+    </task>
+    <task id="LOCAL-00081" summary="prepping for more_twks merge">
+      <created>1493922304937</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1493922304938</updated>
+    </task>
+    <task id="LOCAL-00082" summary="still prepping for more_twks merge">
+      <created>1493922349484</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1493922349484</updated>
+    </task>
+    <task id="LOCAL-00083" summary="resolving conflicts">
+      <created>1493922799840</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1493922799840</updated>
+    </task>
+    <task id="LOCAL-00084" summary="'rely' and 'comment' now in LineParTableModel">
+      <created>1494252257230</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1494252257231</updated>
+    </task>
+    <task id="LOCAL-00085" summary="bug fixes">
+      <created>1494259663699</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1494259663700</updated>
+    </task>
+    <task id="LOCAL-00086" summary="cleaning up + mention of extra columns in doc">
+      <created>1494265140723</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1494265140723</updated>
+    </task>
+    <task id="LOCAL-00087" summary="fix compatibility with old inputs">
+      <created>1495123641622</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1495123641623</updated>
+    </task>
+    <task id="LOCAL-00088" summary="bug fixes/conflicts">
+      <created>1495126193872</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1495126193873</updated>
+    </task>
+    <task id="LOCAL-00089" summary="bug fixes">
+      <created>1495127866355</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1495127866355</updated>
+    </task>
+    <task id="LOCAL-00090" summary="fixes problems with compiled fit inspection pdf&#10;change velocity limits on stackplots in pdf">
+      <created>1495769169540</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1495769169546</updated>
+    </task>
+    <task id="LOCAL-00091" summary="add dummy continuum to model file">
+      <created>1496422377840</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1496422377841</updated>
+    </task>
+    <task id="LOCAL-00092" summary="add dummy continuum to model file">
+      <created>1496422508803</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1496422508803</updated>
+    </task>
+    <task id="LOCAL-00093" summary="add dummy continuum to model file">
+      <created>1496939411743</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1496939411743</updated>
+    </task>
+    <task id="LOCAL-00094" summary="as stated...some comments cleaned up also">
+      <created>1497703805912</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1497703805913</updated>
+    </task>
+    <task id="LOCAL-00095" summary="as stated...some comments cleaned up also">
+      <created>1498765238863</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1498765238864</updated>
+    </task>
+    <task id="LOCAL-00096" summary="joebvp import to AbsLines sped up substantially">
+      <created>1506381588152</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1506381588155</updated>
+    </task>
+    <task id="LOCAL-00097" summary="quit button on interface">
+      <created>1513207354524</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1513207354524</updated>
+    </task>
+    <task id="LOCAL-00098" summary="slot connection">
+      <created>1513212848231</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1513212848231</updated>
+    </task>
+    <task id="LOCAL-00099" summary="button alignment">
+      <created>1513213656746</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1513213656746</updated>
+    </task>
+    <task id="LOCAL-00100" summary="attempt to fix">
+      <created>1514301470381</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1514301470382</updated>
+    </task>
+    <task id="LOCAL-00101" summary="import linelist for AbsLine instantiation in joebvpfit.readpars()">
+      <created>1518022641586</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1518022641587</updated>
+    </task>
+    <task id="LOCAL-00102" summary="playing with various possible performance improvments&#10;also, enabled inspect=False switch for batch_fit">
+      <created>1523655920579</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1523655920579</updated>
+    </task>
+    <task id="LOCAL-00103" summary="starting">
+      <created>1527103625708</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1527103625709</updated>
+    </task>
+    <task id="LOCAL-00104" summary="import future line in all modules; print statement bugs squashed">
+      <created>1530379199135</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1530379199135</updated>
+    </task>
+    <task id="LOCAL-00105" summary="straggler print statement">
+      <created>1530380021248</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1530380021248</updated>
+    </task>
+    <task id="LOCAL-00106" summary="more bugs">
+      <created>1530638059118</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1530638059118</updated>
+    </task>
+    <task id="LOCAL-00107" summary="circular migrations">
+      <created>1535065594814</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1535065594814</updated>
+    </task>
+    <task id="LOCAL-00108" summary="python 3">
+      <created>1538440710578</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1538440710579</updated>
+    </task>
+    <task id="LOCAL-00109" summary="fixes issue in makevoigt.convolvecos()">
+      <created>1541353743140</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1541353743141</updated>
+    </task>
+    <task id="LOCAL-00110" summary="fixes issue in makevoigt.convolvecos()">
+      <created>1541354949694</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1541354949695</updated>
+    </task>
+    <task id="LOCAL-00111" summary="misc. python 3-related bug fixes">
+      <created>1541354984606</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1541354984606</updated>
+    </task>
+    <task id="LOCAL-00112" summary="issues with QTableView displaying line parameters&#10;atomicdata method to retrieve names">
+      <created>1541363741919</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1541363741919</updated>
+    </task>
+    <task id="LOCAL-00113" summary="addressing plotting weirdness">
+      <created>1542156778305</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1542156778306</updated>
+    </task>
+    <task id="LOCAL-00114" summary="addressing plotting weirdness&#10;parameter write out">
+      <created>1542264731397</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1542264731397</updated>
+    </task>
+    <task id="LOCAL-00115" summary="plot updates">
+      <created>1542265366949</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1542265366949</updated>
+    </task>
+    <task id="LOCAL-00116" summary="Fixes especially relevant to batch_fit">
+      <created>1548201458911</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1548201458911</updated>
+    </task>
+    <task id="LOCAL-00117" summary="Heeding warnings and more properly catching errors for batch fitting">
+      <created>1548311270996</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1548311270996</updated>
+    </task>
+    <task id="LOCAL-00118" summary="Addressing Tejos PR comments...cleaning up lots of extraneous stuff.">
+      <created>1550781231838</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1550781231838</updated>
+    </task>
+    <task id="LOCAL-00119" summary="enabling Gaussian LSFs">
+      <created>1561095205384</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1561095205385</updated>
+    </task>
+    <task id="LOCAL-00120" summary="addressing NT">
+      <created>1563923658136</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1563923658136</updated>
+    </task>
+    <task id="LOCAL-00121" summary="addressing NT">
+      <created>1581706602034</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1581706602034</updated>
+    </task>
+    <task id="LOCAL-00122" summary="vars in cfg">
+      <created>1581706844030</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1581706844030</updated>
+    </task>
+    <task id="LOCAL-00123" summary="unsubstantive changes">
+      <created>1603237221290</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1603237221290</updated>
+    </task>
+    <task id="LOCAL-00124" summary="reverting stuff">
+      <created>1603237539366</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1603237539367</updated>
+    </task>
+    <task id="LOCAL-00125" summary="handle batch list with only one file">
+      <created>1603237826844</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1603237826844</updated>
+    </task>
+    <option name="localTasksCounter" value="126" />
+    <servers />
+  </component>
+  <component name="TodoView" selected-index="4">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="attempt to fix" />
+    <MESSAGE value="import linelist for AbsLine instantiation in joebvpfit.readpars()" />
+    <MESSAGE value="playing with various possible performance improvments&#10;also, enabled inspect=False switch for batch_fit" />
+    <MESSAGE value="starting" />
+    <MESSAGE value="import future line in all modules; print statement bugs squashed" />
+    <MESSAGE value="straggler print statement" />
+    <MESSAGE value="more bugs" />
+    <MESSAGE value="circular migrations" />
+    <MESSAGE value="python 3" />
+    <MESSAGE value="fixes issue in makevoigt.convolvecos()" />
+    <MESSAGE value="misc. python 3-related bug fixes" />
+    <MESSAGE value="issues with QTableView displaying line parameters&#10;atomicdata method to retrieve names" />
+    <MESSAGE value="addressing plotting weirdness" />
+    <MESSAGE value="addressing plotting weirdness&#10;parameter write out" />
+    <MESSAGE value="plot updates" />
+    <MESSAGE value="Fixes especially relevant to batch_fit" />
+    <MESSAGE value="Heeding warnings and more properly catching errors for batch fitting" />
+    <MESSAGE value="Addressing Tejos PR comments...cleaning up lots of extraneous stuff." />
+    <MESSAGE value="scratch" />
+    <MESSAGE value="enabling Gaussian LSFs" />
+    <MESSAGE value="addressing NT" />
+    <MESSAGE value="vars in cfg" />
+    <MESSAGE value="unsubstantive changes" />
+    <MESSAGE value="reverting stuff" />
+    <MESSAGE value="handle batch list with only one file" />
+    <option name="LAST_COMMIT_MESSAGE" value="handle batch list with only one file" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/joebvp/atomicdata/__init__.py</url>
+          <line>5</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/joebvp/nmpfit.py</url>
+          <line>3</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/joebvp/makevoigt.py</url>
+          <line>100</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

@@ -255,7 +255,7 @@ class newLineDialog(QDialog):
             return 0
 
 class Main(QMainWindow, Ui_MainWindow):
-    def __init__(self,specfilename,parfilename=None,wave1=None,wave2=None,numchunks=8,parent=None):
+    def __init__(self,specfilename,parfilename=None,numpanels=8,wave1=None,wave2=None,parent=None):
         QtWidgets.QMainWindow.__init__(self, parent)
         #super(Main,self).__init__()
         self.setupUi(self)
@@ -267,7 +267,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.linecmts = None
         self.wave1 = wave1
         self.wave2 = wave2
-        self.numchunks = numchunks
+        self.numchunks = numpanels
         self.spls = []
         self.labeltog = 1
         self.pixtog = 0
@@ -314,7 +314,8 @@ class Main(QMainWindow, Ui_MainWindow):
         self.addsidempl(self.sidefig)
         self.sideplot(self.lastclick)  #Dummy initial cenwave setting
 
-    def initplot(self,fig,numchunks=8):
+    def initplot(self,fig):
+        numchunks = self.numchunks
         wlen=len(self.spectrum.wavelength)/numchunks
         self.spls=[]
         if self.wave1==None:  waveidx1=0  # Default to plotting entire spectrum for now
@@ -325,8 +326,8 @@ class Main(QMainWindow, Ui_MainWindow):
         for i in range(numchunks):
             self.spls.append(fig.add_subplot(sg[i][0],sg[i][1],sg[i][2]))
             pixs=np.arange(waveidx1+i*wlen,waveidx1+(i+1)*wlen, dtype='int')
-            self.spls[i].plot(self.wave[pixs],self.normflux[pixs],
-                              linestyle='solid',linewidth=cfg.spec_linewidth)
+            self.spls[i].step(self.wave[pixs],self.normflux[pixs],
+                              where='mid',linewidth=cfg.spec_linewidth)
             if self.fitpars!=None:
                 self.spls[i].plot(self.wave,model,'r')
             self.spls[i].set_xlim(self.wave[pixs[0]],self.wave[pixs[-1]])
@@ -355,7 +356,7 @@ class Main(QMainWindow, Ui_MainWindow):
         if len(self.sidefig.axes)==0:
             self.sideax=self.sidefig.add_subplot(111)
         self.sideax.clear()
-        self.sideax.plot(self.wave, self.normflux, linestyle='solid',
+        self.sideax.step(self.wave, self.normflux, where='mid',
                          linewidth=cfg.spec_linewidth)
         if self.pixtog == 1:
             self.sideax.plot(self.wave[cfg.fitidx], self.normflux[cfg.fitidx], 'gs', markersize=4, mec='green')
@@ -385,8 +386,8 @@ class Main(QMainWindow, Ui_MainWindow):
                 self.sideax.text(labelloc, cfg.label_ypos, label, rotation=90, ha='center', va='bottom',
                                  clip_on=True, fontsize=cfg.label_fontsize)
 
-        self.sideax.plot(self.wave, self.normsig, linestyle='solid', color='red', lw=0.5)
-        self.sideax.plot(self.wave, -self.normsig, linestyle='solid', color='red', lw=0.5)
+        self.sideax.step(self.wave, self.normsig, where='mid', color='red', lw=0.5)
+        self.sideax.step(self.wave, -self.normsig, where='mid', color='red', lw=0.5)
         self.sideax.get_xaxis().get_major_formatter().set_scientific(False)
         self.sideax.get_xaxis().get_major_formatter().set_useOffset(False)
         try:
@@ -487,7 +488,7 @@ class Main(QMainWindow, Ui_MainWindow):
                 prange=np.arange(waveidx1+i*wlen,waveidx1+(i+1)*wlen,dtype='int')
                 if ((len(self.fitpars[0])>0)):
     
-                    sp.plot(self.wave,self.normflux,linestyle='solid')
+                    sp.step(self.wave,self.normflux, where='mid', linestyle='solid')
                     if self.pixtog==1:
                         sp.plot(self.wave[cfg.fitidx], self.normflux[cfg.fitidx], 'gs', markersize=4, mec='green')
                     model=joebvpfit.voigtfunc(self.wave,self.fitpars)
@@ -502,11 +503,11 @@ class Main(QMainWindow, Ui_MainWindow):
                         for j in range(len(self.fitpars[0])):
                             labelloc=self.fitpars[0][j]*(1.+self.fitpars[3][j])+self.fitpars[4][j]/c*self.fitpars[0][j]*(1.+self.fitpars[3][j])
                             label = ' {:.1f}_\nz{:.4f}'.format(self.fitpars[0][j], self.fitpars[3][j])
-                            sp.text(labelloc, cfg.label_ypos, label, rotation=90, withdash=True, ha='center', va='bottom', clip_on=True, fontsize=cfg.label_fontsize)
+                            sp.text(labelloc, cfg.label_ypos, label, rotation=90, ha='center', va='bottom', clip_on=True, fontsize=cfg.label_fontsize)
                 
     
-                sp.plot(self.wave,self.normsig,linestyle='solid',color='red', lw=0.5)
-                sp.plot(self.wave,-self.normsig,linestyle='solid',color='red', lw=0.5)
+                sp.step(self.wave,self.normsig,linestyle='solid', where='mid', color='red', lw=0.5)
+                sp.step(self.wave,-self.normsig,linestyle='solid', where='mid', color='red', lw=0.5)
                 sp.set_ylim(cfg.ylim)
                 sp.set_xlim(self.wave[prange[0]],self.wave[prange[-1]])
                 sp.set_xlabel('wavelength (A)', fontsize=cfg.xy_fontsize, labelpad=cfg.x_labelpad)
@@ -566,7 +567,7 @@ class Main(QMainWindow, Ui_MainWindow):
         #self.mplvl.removeWidget(self.toolbar)
         #self.toolbar.close()
 
-def go(specfilename, parfilename):
+def go(specfilename, parfilename, numpanels=8):
     import sys
     import numpy as np
     from astropy.io import fits as pf
@@ -577,7 +578,7 @@ def go(specfilename, parfilename):
     if not app:
         app = QtWidgets.QApplication(sys.argv)
         app.aboutToQuit.connect(app.deleteLater)
-    main = Main(specfilename, parfilename)
+    main = Main(specfilename, parfilename, numpanels)
     main.show()
     app.exec_()
 
