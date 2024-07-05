@@ -55,7 +55,7 @@ def closestlam(restwave):
 def lam2ion(restwave):
     if (isinstance(restwave,int))|(isinstance(restwave,float)):
         ionstr = vernion[jbg.closest(vernlam,restwave)].strip()
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         return ionstr
     else: 
         ions=[]
