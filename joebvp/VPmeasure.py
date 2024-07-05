@@ -567,7 +567,7 @@ class Main(QMainWindow, Ui_MainWindow):
         #self.mplvl.removeWidget(self.toolbar)
         #self.toolbar.close()
 
-def go(specfilename, parfilename, numpanels=8):
+def go(specfilename, parfilename):
     import sys
     import numpy as np
     from astropy.io import fits as pf
@@ -578,7 +578,7 @@ def go(specfilename, parfilename, numpanels=8):
     if not app:
         app = QtWidgets.QApplication(sys.argv)
         app.aboutToQuit.connect(app.deleteLater)
-    main = Main(specfilename, parfilename, numpanels)
+    main = Main(specfilename, parfilename)
     main.show()
     app.exec_()
 
