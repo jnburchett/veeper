@@ -51,7 +51,7 @@ def voigtfunc(vwave,vpars):
 		makevoigt.get_lsfs()
 	vflux=np.zeros(len(vwave))+1.
 	factor=makevoigt.voigt(vwave,vpars[0],vpars[1],vpars[2],vpars[3],vpars[4])
-	convfactor=makevoigt.convolvecos(vwave,factor,vpars[0],vpars[3])
+	convfactor=makevoigt.convolveprof(vwave,factor,vpars[0],vpars[3])
 	vflux*=convfactor
 	return vflux
 

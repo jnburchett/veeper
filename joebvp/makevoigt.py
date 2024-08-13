@@ -45,7 +45,7 @@ def cosvoigt(vwave,vpars):
     cfg.wave=vwave
     vflux=np.zeros(len(vwave))+1.
     factor=voigt(vwave,vpars[0],vpars[1],vpars[2],vpars[3],vpars[4])
-    convfactor=convolvecos(vwave,factor,vpars[0],vpars[3])
+    convfactor=convolveprof(vwave,factor,vpars[0],vpars[3])
     vflux*=convfactor
     return vflux
 
@@ -56,7 +56,7 @@ def cosvoigt_cont(vwave,cont,vpars):
     cfg.wave=vwave
     vflux=np.zeros(len(vwave))+1.
     factor=voigt(vwave,vpars[0],vpars[1],vpars[2],vpars[3],vpars[4])
-    convfactor=convolvecos(vwave,factor*cont,vpars[0],vpars[3])
+    convfactor=convolveprof(vwave,factor*cont,vpars[0],vpars[3])
     vflux*=convfactor
     return vflux
 
@@ -130,7 +130,7 @@ def get_lsfs():
 
             cfg.lsfs.append(lsf['kernel'])
 
-def convolvecos(wave,profile,lines,zs):
+def convolveprof(wave,profile,lines,zs):
     if len(wave)>len(cfg.fitidx):
         if len(cfg.fitidx) > 0:
             fitwaves=wave[cfg.fitidx]
