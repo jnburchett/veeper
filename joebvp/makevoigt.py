@@ -81,28 +81,28 @@ def voigt(waves,line,coldens,bval,z,vels):
         tautot+=tauval
     return np.exp(-tautot)
 
-def get_lsfs():
+def get_lsfs(lsfcfg=cfg):
 
     lsfobjs=[]
-    for i,inst in enumerate(cfg.instr):
+    for i,inst in enumerate(lsfcfg.instr):
         if inst in ['COS','STIS']:
-            lsfobjs.append(LSF(dict(name=inst, grating=cfg.gratings[i],
-                                life_position=cfg.lps[i], cen_wave=cfg.cen_wave[i],
-                                slit=cfg.slits[i])))
+            lsfobjs.append(LSF(dict(name=inst, grating=lsfcfg.gratings[i],
+                                life_position=lsfcfg.lps[i], cen_wave=lsfcfg.cen_wave[i],
+                                slit=lsfcfg.slits[i])))
         elif inst in ['Gaussian','gaussian']:
-            lsfobjs.append(LSF(dict(name=inst, pixel_scale=cfg.pixel_scales[i],
-                                    FWHM=cfg.fwhms[i])))
-    cfg.lsfs=[]
-    for fg in cfg.fgs:
+            lsfobjs.append(LSF(dict(name=inst, pixel_scale=lsfcfg.pixel_scales[i],
+                                    FWHM=lsfcfg.fwhms[i])))
+    lsfcfg.lsfs=[]
+    for fg in lsfcfg.fgs:
         if isinstance(fg,int):
-            lamobs=cfg.wave[fg]
-            lsfmatch = jbg.wherebetween(lamobs, cfg.lsfranges[:, 0], cfg.lsfranges[:, 1])
-            lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(cfg.wave[cfg.fgs] * u.AA, kind='cubic')
-            cfg.lsfs.append(lsf['kernel'])
+            lamobs=lsfcfg.wave[fg]
+            lsfmatch = jbg.wherebetween(lamobs, lsfcfg.lsfranges[:, 0], lsfcfg.lsfranges[:, 1])
+            lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(lsfcfg.wave[lsfcfg.fgs] * u.AA, kind='cubic')
+            lsfcfg.lsfs.append(lsf['kernel'])
             break
         else:
-            lamobs=np.median(cfg.wave[fg])
-            lsfmatch = jbg.wherebetween(lamobs, cfg.lsfranges[:, 0], cfg.lsfranges[:, 1])
+            lamobs=np.median(lsfcfg.wave[fg])
+            lsfmatch = jbg.wherebetween(lamobs, lsfcfg.lsfranges[:, 0], lsfcfg.lsfranges[:, 1])
             if len(fg) < 10:
                 print("Line at {:.2f} AA is undersampling the LSF. Will increase number of pixels at either side to"
                     " include at least 10.".format(lamobs))
@@ -118,7 +118,7 @@ def get_lsfs():
                 fg = np.array(fg)
                 print("New fg is: {}".format(fg))
             try:
-                lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(cfg.wave[fg] * u.AA, kind='cubic')
+                lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(lsfcfg.wave[fg] * u.AA, kind='cubic')
             except:
                 import pdb; pdb.set_trace()
 
