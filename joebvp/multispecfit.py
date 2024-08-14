@@ -77,7 +77,7 @@ def multispecfit(specfiles,parfile,cfgfiles):
         thiscfg.spectrum = spec # need this for defining bad pixels later
 
         #TODO: make joebvpfit_multi that takes lists of wave,flux,sig,cfg
-        #TODO: 
+        #TODO: make voigterrfunc_multi (?) that does appropriate evals and convolutions
 
 
         #fitpars,fiterrors=joebvpfit.fit_to_convergence(wave,normflux,normsig,fitpars,parinfo, **kwargs)
