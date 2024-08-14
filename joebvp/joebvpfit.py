@@ -61,25 +61,28 @@ def voigterrfunc(p,x,y,err,fjac=None):
 	status=0
 	return([status, (y[cfg.fitidx] - model[cfg.fitidx]) / err[cfg.fitidx]])
 
-def update_bad_pixels():
+def update_bad_pixels(fitcfg=cfg):
 	# define bad pixels
-	cond_badpix = (cfg.spectrum.wavelength <= cfg.spectrum.wvmin) | \
-				  (cfg.spectrum.wavelength >= cfg.spectrum.wvmax) | \
-				  (cfg.spectrum.sig <= 0)
-				  #(cfg.spectrum.flux / cfg.spectrum.sig < cfg.min_sn)  # bad S/N
+	try:
+		cond_badpix = (fitcfg.spectrum.wavelength <= fitcfg.spectrum.wvmin) | \
+					(fitcfg.spectrum.wavelength >= fitcfg.spectrum.wvmax) | \
+					(fitcfg.spectrum.sig <= 0)
+					#(cfg.spectrum.flux / cfg.spectrum.sig < cfg.min_sn)  # bad S/N
+	except:
+		import pdb; pdb.set_trace()
 	# spectral gaps
-	for gap in cfg.spectral_gaps:
-		cond_gap = (cfg.spectrum.wavelength >= gap[0]*u.AA) & (cfg.spectrum.wavelength <= gap[1]*u.AA)
+	for gap in fitcfg.spectral_gaps:
+		cond_gap = (fitcfg.spectrum.wavelength >= gap[0]*u.AA) & (fitcfg.spectrum.wavelength <= gap[1]*u.AA)
 		cond_badpix = cond_badpix | cond_gap
 	bad_pixels = np.where(cond_badpix)[0]
 	return bad_pixels
 
-def fitpix(wave,pararr,find_bad_pixels=True):
+def fitpix(wave,pararr,find_bad_pixels=True,fitcfg=cfg):
 	if find_bad_pixels:
 		# define bad pixels
-		cfg.bad_pixels = update_bad_pixels() # this variable stores the indices of bad pixels
+		fitcfg.bad_pixels = update_bad_pixels(fitcfg) # this variable stores the indices of bad pixels
 	else:
-		cfg.bad_pixels = []
+		fitcfg.bad_pixels = []
 		
 	ll=pararr[0]
 	lz=pararr[3]
@@ -98,7 +101,7 @@ def fitpix(wave,pararr,find_bad_pixels=True):
 		else:
 			relpix.extend(range(p1 - 10, len(wave)-1))
 	rp = np.unique(np.array(relpix))
-	clean_rp = np.array([i for i in rp if i not in cfg.bad_pixels])
+	clean_rp = np.array([i for i in rp if i not in fitcfg.bad_pixels])
 	return clean_rp
 
 def prepparinfo(linepars,parflags):
