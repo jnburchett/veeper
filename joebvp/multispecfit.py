@@ -50,20 +50,26 @@ except:
     from joebvp import cfg'''
 
 def multispecfit(specfiles,parfile,cfgfiles):
-    # Import arbitrary number of spectra and cfg files; append to lists
-    cfglist = []
-    spectra = []
-    for i,cf in enumerate(cfgfiles):
-        if cf[-3:]=='.py':
-            cf = cf[:-3]
-        cfglist.append(importlib.import_module(cf))
-        spectra.append(readspec(specfiles[i]))
+
+    cfglist = initmultifit(specfiles,cfgfiles)
 
     # initialize fit parameters
     fitpars, fiterrors, parinfo, linecmts = joebvpfit.readpars(parfile)
 
+    
+    #fitpars,fiterrors=joebvpfit.fit_to_convergence(wave,normflux,normsig,fitpars,parinfo, **kwargs)
+    joebvpfit_multi(cfglist,fitpars,parinfo)
+    #import pdb; pdb.set_trace()
+    
+def initmultifit(specfiles,cfgfiles):
+    # Import arbitrary number of spectra and cfg files; append to lists
+    cfglist = []
+    for i,cf in enumerate(cfgfiles):
+        if cf[-3:]=='.py':
+            cf = cf[:-3]
+        cfglist.append(importlib.import_module(cf))
+        spec = readspec(specfiles[i])
 
-    for i,spec in enumerate(spectra):
         thiscfg = cfglist[i]
         thiscfg.lsfs = []
         thiscfg.fgs = []
@@ -75,10 +81,9 @@ def multispecfit(specfiles,parfile,cfgfiles):
         thiscfg.spectrum = spec # need this for defining bad pixels later
         thiscfg.normflux = spec.flux.value/spec.co.value
         thiscfg.normsig=spec.sig.value/spec.co.value
-    
-        #fitpars,fiterrors=joebvpfit.fit_to_convergence(wave,normflux,normsig,fitpars,parinfo, **kwargs)
-    joebvpfit_multi(cfglist,fitpars,parinfo)
-    #import pdb; pdb.set_trace()
+
+    return cfglist
+
 
 
 

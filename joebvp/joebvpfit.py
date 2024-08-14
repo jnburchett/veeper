@@ -48,7 +48,7 @@ def voigtfunc(vwave,vpars,fitcfg=cfg):
 		fitcfg.fitidx = fitpix(vwave, vpars)
 		fitcfg.wave = vwave
 	if len(fitcfg.lsfs) == 0:
-		makevoigt.get_lsfs()
+		makevoigt.get_lsfs(fitcfg)
 	vflux=np.zeros(len(vwave))+1.
 	factor=makevoigt.voigt(vwave,vpars[0],vpars[1],vpars[2],vpars[3],vpars[4])
 	convfactor=makevoigt.convolveprof(vwave,factor,fitcfg)

@@ -255,7 +255,8 @@ class newLineDialog(QDialog):
             return 0
 
 class Main(QMainWindow, Ui_MainWindow):
-    def __init__(self,specfilename,parfilename=None,numpanels=8,wave1=None,wave2=None,parent=None):
+    def __init__(self,specfilename,parfilename=None,numpanels=8,wave1=None,
+                 wave2=None,parent=None,multispec=False,cfgfiles=None):
         QtWidgets.QMainWindow.__init__(self, parent)
         #super(Main,self).__init__()
         self.setupUi(self)
@@ -274,19 +275,28 @@ class Main(QMainWindow, Ui_MainWindow):
         self.restog = 1
         self.fitconvtog = 0
         self.lastclick=1334.
+        self.multispec = multispec  
 
-        ### Read in spectrum and list of lines to fit
-        self.specfilename=specfilename
-        self.spectrum = readspec(specfilename)
-        self.wave=self.spectrum.wavelength.value
-        self.normflux=self.spectrum.flux/self.spectrum.co
-        self.normsig=self.spectrum.sig/self.spectrum.co
-        cfg.spectrum = self.spectrum
-        cfg.wave=self.wave
-        cfg.normflux=self.normflux
-        cfg.filename=self.specfilename
+        print(multispec)
+        ### Read in spectrum (or spectra), cfgs (if applicable) and list of lines to fit
+        if multispec:
+            from joebvp import multispecfit
+            self.specfiles = specfilename
+            self.spectra = [readspec(sf) for sf in self.specfiles]
+            self.cfglist = multispecfit.initmultifit(specfilename,cfgfiles)
+        else:
+            self.specfilename=specfilename
+            self.spectrum = readspec(specfilename)
+            self.wave=self.spectrum.wavelength.value
+            self.normflux=self.spectrum.flux/self.spectrum.co
+            self.normsig=self.spectrum.sig/self.spectrum.co
+            cfg.spectrum = self.spectrum
+            cfg.wave=self.wave
+            cfg.normflux=self.normflux
+            cfg.filename=self.specfilename
 
         if not parfilename==None:
+            #TODO: deal with this!!!
             self.initialpars(parfilename)
 
 
@@ -306,7 +316,10 @@ class Main(QMainWindow, Ui_MainWindow):
         ### Initialize spectral plots
         fig=Figure(figsize=(5,3))
         self.fig=fig
-        self.initplot(fig)
+        if self.multispec:
+            self.initplot_multi(fig)
+        else:
+            self.initplot(fig)
 
         ### Initialize side plot
         sidefig=Figure(figsize=(5.85,3.75))
@@ -324,6 +337,34 @@ class Main(QMainWindow, Ui_MainWindow):
                 model=joebvpfit.voigtfunc(self.wave,self.datamodel.fitpars)
         sg=jbg.subplotgrid(numchunks)
         for i in range(numchunks):
+            self.spls.append(fig.add_subplot(sg[i][0],sg[i][1],sg[i][2]))
+            pixs=np.arange(waveidx1+i*wlen,waveidx1+(i+1)*wlen, dtype='int')
+            self.spls[i].step(self.wave[pixs],self.normflux[pixs],
+                              where='mid',linewidth=cfg.spec_linewidth)
+            if self.fitpars!=None:
+                self.spls[i].plot(self.wave,model,'r')
+            self.spls[i].set_xlim(self.wave[pixs[0]],self.wave[pixs[-1]])
+            self.spls[i].set_ylim(cfg.ylim)
+            self.spls[i].set_xlabel('wavelength', fontsize=cfg.xy_fontsize,
+                                    labelpad=cfg.x_labelpad)
+            self.spls[i].set_ylabel('relative flux', fontsize=cfg.xy_fontsize,
+                                    labelpad=cfg.y_labelpad)
+            self.spls[i].get_xaxis().get_major_formatter().set_scientific(False)
+            self.spls[i].tick_params(axis='both', which='major',direction='in',
+                                     pad=2,length=2)
+        fig.subplots_adjust(top=0.98,bottom=0.05,left=0.08,right=0.97,
+                            wspace=0.15,hspace=0.24)
+        self.addmpl(fig)
+
+    def initplot_multi(self):
+        numspec = len(self.cfglist)
+        if self.wave1==None:  waveidx1=0  # Default to plotting entire spectrum for now
+        else: waveidx1=jbg.closest(self.wave,self.wave1)
+        if self.fitpars!=None:
+            for cfg in self.cfglist:
+                model=joebvpfit.voigtfunc(cfg.wave,self.datamodel.fitpars)
+        sg=jbg.subplotgrid(numspec)
+        for i,cfg in enumerate(self.cfglist):
             self.spls.append(fig.add_subplot(sg[i][0],sg[i][1],sg[i][2]))
             pixs=np.arange(waveidx1+i*wlen,waveidx1+(i+1)*wlen, dtype='int')
             self.spls[i].step(self.wave[pixs],self.normflux[pixs],
@@ -567,7 +608,7 @@ class Main(QMainWindow, Ui_MainWindow):
         #self.mplvl.removeWidget(self.toolbar)
         #self.toolbar.close()
 
-def go(specfilename, parfilename,numpanels=8):
+def go(specfilename, parfilename,numpanels=8,multispec=False,cfgfiles=None):
     import sys
     import numpy as np
     from astropy.io import fits as pf
@@ -578,7 +619,7 @@ def go(specfilename, parfilename,numpanels=8):
     if not app:
         app = QtWidgets.QApplication(sys.argv)
         app.aboutToQuit.connect(app.deleteLater)
-    main = Main(specfilename, parfilename,numpanels)
+    main = Main(specfilename, parfilename,numpanels,multispec=multispec,cfgfiles=cfgfiles)
     main.show()
     app.exec_()
 
