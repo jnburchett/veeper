@@ -42,16 +42,16 @@ def unfoldpars(pars,numpars=5):
 			ufpars.append(pars[i][j])
 	return ufpars
 
-def voigtfunc(vwave,vpars):
+def voigtfunc(vwave,vpars,fitcfg=cfg):
 	### Check to see if cfg variables are set
-	if isinstance(cfg.fitidx, int)|isinstance(cfg.wave, int):
-		cfg.fitidx = fitpix(vwave, vpars)
-		cfg.wave = vwave
-	if len(cfg.lsfs) == 0:
+	if isinstance(fitcfg.fitidx, int)|isinstance(fitcfg.wave, int):
+		fitcfg.fitidx = fitpix(vwave, vpars)
+		fitcfg.wave = vwave
+	if len(fitcfg.lsfs) == 0:
 		makevoigt.get_lsfs()
 	vflux=np.zeros(len(vwave))+1.
 	factor=makevoigt.voigt(vwave,vpars[0],vpars[1],vpars[2],vpars[3],vpars[4])
-	convfactor=makevoigt.convolveprof(vwave,factor,vpars[0],vpars[3])
+	convfactor=makevoigt.convolveprof(vwave,factor,fitcfg)
 	vflux*=convfactor
 	return vflux
 

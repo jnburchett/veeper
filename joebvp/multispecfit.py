@@ -69,13 +69,11 @@ def multispecfit(specfiles,parfile,cfgfiles):
         thiscfg.wavegroups = []
         thiscfg.wgidxs = []
         thiscfg.uqwgidxs = []
-
-        wave=spec.wavelength.value
-        normflux=spec.flux.value/spec.co.value
-        normsig=spec.sig.value/spec.co.value
-        thiscfg.wave=wave
+        
+        thiscfg.wave=spec.wavelength.value
         thiscfg.spectrum = spec # need this for defining bad pixels later
-
+        thiscfg.normflux = spec.flux.value/spec.co.value
+        thiscfg.normsig=spec.sig.value/spec.co.value
         #TODO: make joebvpfit_multi that takes lists of wave,flux,sig,cfg
         #TODO: make voigterrfunc_multi (?) that does appropriate evals and convolutions
 
@@ -83,4 +81,54 @@ def multispecfit(specfiles,parfile,cfgfiles):
         #fitpars,fiterrors=joebvpfit.fit_to_convergence(wave,normflux,normsig,fitpars,parinfo, **kwargs)
     import pdb; pdb.set_trace()
 
+
+
+def joebvpfit_multi(cfglist,linepars):
+
+    xtol=1e-11
+    gtol=1e-11
+    # Only feed to the fitter the parameters that go into the model
+    partofit=linepars[:5]
+    parinfo=prepparinfo(partofit,flags)
+    # Prep parameters for fitter
+    partofit=unfoldpars(partofit)
+    # Save the velocity windows to add back to the parameter array
+    vlim1=linepars[5] ; vlim2=linepars[6]
+    # Set up lists of wavelength, etc., arrays
+    xs = []
+    ys = []
+    errs = []
+    for cfg in cfglist:
+        # Get atomic data
+        lam,fosc,gam=atomicdata.setatomicdata(linepars[0])
+        cfg.lams=lam ; cfg.fosc=fosc ; cfg.gam=gam
+        # Set fit regions
+        cfg.fitidx = fitpix(cfg.wave, linepars)
+        xs.append(cfg.wave)
+        ys.append(cfg.normflux)
+        errs.append(cfg.normsig)
+    modelvars={'xs':xs,'ys':ys,'errs':errs,'cfglist':cfglist}
+    modelvars = ('cfglist':cfglist)
+    
+    # Do the fit and translate the parameters back into the received format
+    m=nmpfit.mpfit(voigterrfunc,partofit,functkw=modelvars,parinfo=parinfo,nprint=1,quiet=0,fastnorm=1,ftol=1e-10,xtol=xtol,gtol=gtol)
+    if m.status <= 0: print('Fitting error:',m.errmsg)
+    fitpars=foldpars(m.params)
+    fiterrors = foldpars(m.perror)
+    # Add velocity windows back to parameter array
+    fitpars.append(vlim1) ; fitpars.append(vlim2)
+
+
+    print('\nFit results: \n')
+    for i in range(len(fitpars[0])):
+        print(jbg.tabdelimrow([round(fitpars[0][i],2),jbg.decimalplaces(fitpars[3][i],5),jbg.roundto(fitpars[1][i],5),jbg.roundto(fitpars[2][i],5),jbg.roundto(fitpars[4][i],5)])[:-2])
+        print(jbg.tabdelimrow([' ',' ',' ',round(fiterrors[1][i],3),round(fiterrors[2][i],3),round(fiterrors[4][i],3)]))
+
+    return fitpars,fiterrors
+
+def voigterrfunc_multi(p,cfglist,fjac=None):
+    fp=foldpars(p)
+    for i,cfg in enumerate(cfglist):
+        pass
+    return
 

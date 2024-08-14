@@ -128,12 +128,12 @@ def get_lsfs(lsfcfg=cfg):
             # 	import pdb; pdb.set_trace()
             # 	QtCore.pyqtRestoreInputHook()
 
-            cfg.lsfs.append(lsf['kernel'])
+            lsfcfg.lsfs.append(lsf['kernel'])
 
-def convolveprof(wave,profile,lines,zs):
-    if len(wave)>len(cfg.fitidx):
-        if len(cfg.fitidx) > 0:
-            fitwaves=wave[cfg.fitidx]
+def convolveprof(wave,profile,fitcfg=cfg):
+    if len(wave)>len(fitcfg.fitidx):
+        if len(fitcfg.fitidx) > 0:
+            fitwaves=wave[fitcfg.fitidx]
         else:
             # todo: figure out why are there cfg.fitidx = []?
             #fitwaves = wave
@@ -141,42 +141,42 @@ def convolveprof(wave,profile,lines,zs):
             import pdb; pdb.set_trace()
     else:
         fitwaves=wave
-    if cfg.wavegroups==[]:
+    if fitcfg.wavegroups==[]:
         X = np.array(list(zip(fitwaves,np.zeros(len(fitwaves)))), dtype=float)
         ms = MeanShift(bandwidth=25.)
         ms.fit(X)
-        cfg.wgidxs = ms.labels_
-        cfg.wavegroups = ms.cluster_centers_
-        cfg.uqwgidxs=np.unique(cfg.wgidxs)
+        fitcfg.wgidxs = ms.labels_
+        fitcfg.wavegroups = ms.cluster_centers_
+        fitcfg.uqwgidxs=np.unique(fitcfg.wgidxs)
         # Identify groups of fitidxs
         buf=4
-        df= cfg.fitidx[1:] - cfg.fitidx[:-1]
+        df= fitcfg.fitidx[1:] - fitcfg.fitidx[:-1]
         dividers = np.where(df > buf)[0] #These are the last indices of each group
         if len(dividers)==0:
-            cfg.fgs=[cfg.fitidx]
+            fitcfg.fgs=[fitcfg.fitidx]
         else:
-            cfg.fgs=[np.arange(cfg.fitidx[0], cfg.fitidx[dividers[0]])] #1st group
+            fitcfg.fgs=[np.arange(fitcfg.fitidx[0], fitcfg.fitidx[dividers[0]])] #1st group
             for i, idx in enumerate(dividers[:-1]):
-                newfg = np.arange(cfg.fitidx[idx + 1], cfg.fitidx[dividers[i + 1]]) # 'i+1' b/c 1st group handled separately
+                newfg = np.arange(fitcfg.fitidx[idx + 1], fitcfg.fitidx[dividers[i + 1]]) # 'i+1' b/c 1st group handled separately
                 if len(newfg)>1.:
-                    cfg.fgs.append(newfg)
-            cfg.fgs.append(np.arange(cfg.fitidx[dividers[-1] + 1], cfg.fitidx[-1] + 1))  #last group
+                    fitcfg.fgs.append(newfg)
+            fitcfg.fgs.append(np.arange(fitcfg.fitidx[dividers[-1] + 1], fitcfg.fitidx[-1] + 1))  #last group
             newfgs=[]
             ### Deal with wavegroups that may have huge jumps in wavelength between pixels
-            for i,fg in enumerate(cfg.fgs):
+            for i,fg in enumerate(fitcfg.fgs):
 
-                diffs= cfg.wave[fg[1:]] - cfg.wave[fg[:-1]]
+                diffs= fitcfg.wave[fg[1:]] - fitcfg.wave[fg[:-1]]
                 outlier=np.where(diffs>(30.*np.median(diffs)))[0]
 
                 if len(outlier)>0:
                     if len(outlier)==1:
-                        cfg.fgs[i]=np.arange(fg[0], fg[outlier + 1])
+                        fitcfg.fgs[i]=np.arange(fg[0], fg[outlier + 1])
                         newfgs.append(np.arange(fg[outlier]+1,fg[-1]))
                         if len(newfgs[-1])<15:
                             nummorepix=15-len(newfgs)
                             newfgs[-1]=np.concatenate([newfgs[-1],np.arange(fg[-1],fg[-1]+nummorepix+1)])  #add 1 to 2nd arg to make sure this val is included
                     else:
-                        cfg.fgs[i]=np.arange(fg[0], fg[outlier[0]])
+                        fitcfg.fgs[i]=np.arange(fg[0], fg[outlier[0]])
                         for j,out in enumerate(outlier):
                             if out==outlier[-1]:
                                 newfgs.append(np.arange(fg[out]+1,fg[-1]+1)) #add 1 to 2nd arg to make sure this val is included
@@ -187,22 +187,22 @@ def convolveprof(wave,profile,lines,zs):
                                 newfgs[-1]=np.concatenate([newfgs[-1],np.arange(fg[-1],fg[-1]+nummorepix+1)]) #add 1 to 2nd arg to make sure this val is included
 
             for fg in newfgs:
-                cfg.fgs.append(fg)
-        get_lsfs()
+                fitcfg.fgs.append(fg)
+        get_lsfs(fitcfg)
     convprof=profile
-    for i,ll in enumerate(cfg.fgs):
+    for i,ll in enumerate(fitcfg.fgs):
         if isinstance(ll,int):
-            lsfwidth= int(np.ceil(len(cfg.fgs) / 2 + 1))
-            paddedprof = np.insert(profile[cfg.fgs], 0, [1.] * lsfwidth)
+            lsfwidth= int(np.ceil(len(fitcfg.fgs) / 2 + 1))
+            paddedprof = np.insert(profile[fitcfg.fgs], 0, [1.] * lsfwidth)
             paddedprof = np.append(paddedprof, [1.] * lsfwidth)
-            convprof[cfg.fgs] = convolve(paddedprof, cfg.lsfs[i], mode='same')[lsfwidth:-lsfwidth]
+            convprof[fitcfg.fgs] = convolve(paddedprof, fitcfg.lsfs[i], mode='same')[lsfwidth:-lsfwidth]
             break
         else:
 
             lsfwidth=int(np.ceil(len(ll)/2+1))
             paddedprof = np.insert(profile[ll], 0, [1.] * lsfwidth)
             paddedprof=np.append(paddedprof,[1.]*lsfwidth)
-            convprof[ll] = convolve(paddedprof, cfg.lsfs[i], mode='same')[lsfwidth:-lsfwidth]
+            convprof[ll] = convolve(paddedprof, fitcfg.lsfs[i], mode='same')[lsfwidth:-lsfwidth]
 
 
     return convprof
