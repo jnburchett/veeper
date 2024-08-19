@@ -142,3 +142,54 @@ def voigterrfunc_multi(p,cfglist,fjac=None):
     status = 0
     return([status, diffs])
 
+def multifit_to_convergence(cfglist,linepars,flags,maxiter=50,itertol=0.0001):
+	'''
+
+	Parameters
+	----------
+	wave
+	flux
+	sig
+	linepars
+	parinfo
+
+	maxiter : int
+		Maximum number of times to run the fit while striving for convergence
+
+	itertol : float
+		Maximum difference in any parameter from one fitting iteration to the next.  Routine will fit again if
+		any difference in the measurements exceeds itertol.
+
+
+	Returns
+	-------
+
+	'''
+	fitpars = linepars
+	oldfitpars = np.zeros([7, len(fitpars[0])]) - 99
+	ctr = 0
+	okay = 1
+	while ((np.max(np.abs(fitpars - oldfitpars)) > itertol) & (ctr < maxiter)):
+		ctr += 1
+
+		try:
+			oldfitpars = fitpars
+			fitpars, fiterrors = joebvpfit_multi(cfglist,fitpars,flags)
+			fitpars = np.array(fitpars)
+			print('Iteration', ctr, '-')
+
+		except:
+			print('Fitting error!')
+			print("Unexpected error:", sys.exc_info()[0])
+			okay = 0
+			raise
+
+
+			#break
+
+	if okay != 0:
+		print('Fit converged after',ctr,'iterations.')
+		return fitpars, fiterrors
+	else:
+		return linepars,fiterrors
+

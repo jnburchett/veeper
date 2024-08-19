@@ -22,6 +22,7 @@ except:
     from joebvp import cfg
 from joebvp import joebvpfit
 from joebvp import utils as jbu
+from joebvp import multispecfit
 import os
 from linetools.spectra.io import readspec
 import numpy as np
@@ -266,6 +267,7 @@ class Main(QMainWindow, Ui_MainWindow):
         self.fitpars = None
         self.parinfo = None
         self.linecmts = None
+        self.cfglist = None
         self.wave1 = wave1
         self.wave2 = wave2
         self.numchunks = numpanels
@@ -277,13 +279,13 @@ class Main(QMainWindow, Ui_MainWindow):
         self.lastclick=1334.
         self.multispec = multispec  
 
-        print(multispec)
         ### Read in spectrum (or spectra), cfgs (if applicable) and list of lines to fit
         if multispec:
             from joebvp import multispecfit
             self.specfiles = specfilename
             self.spectra = [readspec(sf) for sf in self.specfiles]
             self.cfglist = multispecfit.initmultifit(specfilename,cfgfiles)
+
         else:
             self.specfilename=specfilename
             self.spectrum = readspec(specfilename)
@@ -297,8 +299,7 @@ class Main(QMainWindow, Ui_MainWindow):
 
         if not parfilename==None:
             #TODO: deal with this!!!
-            self.initialpars(parfilename)
-
+            self.initialpars(parfilename,self.cfglist)
 
         ### Connect signals to slots
         self.fitButton.clicked.connect(self.fitlines)
@@ -325,7 +326,8 @@ class Main(QMainWindow, Ui_MainWindow):
         sidefig=Figure(figsize=(5.85,3.75))
         self.sidefig = sidefig
         self.addsidempl(self.sidefig)
-        self.sideplot(self.lastclick)  #Dummy initial cenwave setting
+        if not multispec:
+            self.sideplot(self.lastclick)  #Dummy initial cenwave setting
 
     def initplot(self,fig):
         numchunks = self.numchunks
@@ -356,22 +358,25 @@ class Main(QMainWindow, Ui_MainWindow):
                             wspace=0.15,hspace=0.24)
         self.addmpl(fig)
 
-    def initplot_multi(self):
+    def initplot_multi(self,fig):
         numspec = len(self.cfglist)
-        if self.wave1==None:  waveidx1=0  # Default to plotting entire spectrum for now
-        else: waveidx1=jbg.closest(self.wave,self.wave1)
         if self.fitpars!=None:
             for cfg in self.cfglist:
-                model=joebvpfit.voigtfunc(cfg.wave,self.datamodel.fitpars)
+                model=joebvpfit.voigtfunc(cfg.wave,self.datamodel.fitpars,fitcfg=cfg)
         sg=jbg.subplotgrid(numspec)
         for i,cfg in enumerate(self.cfglist):
+            if self.wave1==None:  waveidx1=0  # Default to plotting entire spectrum for now
+            else: waveidx1=jbg.closest(cfg.wave,self.wave1)
+            if self.wave2==None:  waveidx2=len(cfg.wave)  # Default to plotting entire spectrum for now
+            else: waveidx2=jbg.closest(cfg.wave,self.wave2)
             self.spls.append(fig.add_subplot(sg[i][0],sg[i][1],sg[i][2]))
-            pixs=np.arange(waveidx1+i*wlen,waveidx1+(i+1)*wlen, dtype='int')
-            self.spls[i].step(self.wave[pixs],self.normflux[pixs],
+
+            pixs=np.arange(waveidx1,waveidx2, dtype='int')
+            self.spls[i].step(cfg.wave[pixs],cfg.normflux[pixs],
                               where='mid',linewidth=cfg.spec_linewidth)
             if self.fitpars!=None:
-                self.spls[i].plot(self.wave,model,'r')
-            self.spls[i].set_xlim(self.wave[pixs[0]],self.wave[pixs[-1]])
+                self.spls[i].plot(cfg.wave,model,'r')
+                self.spls[i].set_xlim(cfg.wave[pixs[0]],cfg.wave[pixs[-1]])
             self.spls[i].set_ylim(cfg.ylim)
             self.spls[i].set_xlabel('wavelength', fontsize=cfg.xy_fontsize,
                                     labelpad=cfg.x_labelpad)
@@ -384,11 +389,16 @@ class Main(QMainWindow, Ui_MainWindow):
                             wspace=0.15,hspace=0.24)
         self.addmpl(fig)
 
-    def initialpars(self,parfilename):
+    def initialpars(self,parfilename,fitcfg=cfg):
         ### Deal with initial parameters from line input file
         self.fitpars,self.fiterrors,self.parinfo,self.linecmts = joebvpfit.readpars(parfilename)
-        cfg.fitidx=joebvpfit.fitpix(self.wave, self.fitpars) #Set pixels for fit
-        cfg.wavegroups=[]
+        if isinstance(fitcfg,list):
+            for fc in fitcfg:
+                fc.fitidx=joebvpfit.fitpix(fc.wave, self.fitpars,fitcfg=fc) #Set pixels for fit
+                fc.wavegroups=[]
+        else:
+            fitcfg.fitidx=joebvpfit.fitpix(self.wave, self.fitpars) #Set pixels for fit
+            fitcfg.wavegroups=[]
         self.datamodel = LineParTableModel(self.fitpars,self.fiterrors,self.parinfo,linecmts=self.linecmts)
         self.tableView.setModel(self.datamodel)
         self.datamodel.updatedata(self.fitpars,self.fitpars,self.parinfo,self.linecmts)
@@ -437,18 +447,30 @@ class Main(QMainWindow, Ui_MainWindow):
             self.changesidefig(self.sidefig)
         except TypeError:
             pass
+
     def fitlines(self):
         print('VPmeasure: Fitting line profile(s)...')
-        print(len(self.fitpars[0]),'lines loaded for fitting.')
+        print(len(self.fitpars[0]),'lines loaded for f  itting.')
         if self.fitconvtog:
-            self.fitpars, self.fiterrors = joebvpfit.fit_to_convergence(self.wave, self.normflux, self.normsig,
+            if self.multispec:
+                self.fitpars, self.fiterrors = multispecfit.multifit_to_convergence(self.cfglist,self.fitpars,self.parinfo)
+            else:
+                self.fitpars, self.fiterrors = joebvpfit.fit_to_convergence(self.wave, self.normflux, self.normsig,
                                                                self.datamodel.fitpars, self.datamodel.parinfo)
         else:
-            self.fitpars, self.fiterrors = joebvpfit.joebvpfit(self.wave, self.normflux,self.normsig, self.datamodel.fitpars,self.datamodel.parinfo)
+            if self.multispec:
+                self.fitpars, self.fiterrors = multispecfit.joebvpfit_multi(self.cfglist,self.fitpars,self.parinfo)
+            else:
+                self.fitpars, self.fiterrors = joebvpfit.joebvpfit(self.wave, self.normflux,self.normsig, self.datamodel.fitpars,self.datamodel.parinfo)
         self.datamodel.updatedata(self.fitpars,self.fiterrors,self.parinfo,self.linecmts)
         self.tableView.resizeColumnsToContents()
-        self.updateplot()
-        self.sideplot(self.lastclick)
+        if self.multispec:
+            self.updateplot_multispec()
+        else: 
+            self.updateplot()
+
+        if not self.multispec:
+            self.sideplot(self.lastclick)
 
     def togfitconv(self):
         if self.fitconvtog==1: self.fitconvtog=0
@@ -551,6 +573,45 @@ class Main(QMainWindow, Ui_MainWindow):
                 sp.step(self.wave,-self.normsig,linestyle='solid', where='mid', color='red', lw=0.5)
                 sp.set_ylim(cfg.ylim)
                 sp.set_xlim(self.wave[prange[0]],self.wave[prange[-1]])
+                sp.set_xlabel('wavelength (A)', fontsize=cfg.xy_fontsize, labelpad=cfg.x_labelpad)
+                sp.set_ylabel('normalized flux', fontsize=cfg.xy_fontsize, labelpad=cfg.y_labelpad)
+                sp.get_xaxis().get_major_formatter().set_scientific(False)
+                sp.get_xaxis().get_major_formatter().set_useOffset(False)
+        self.changefig(self.fig)
+
+    def updateplot_multispec(self):
+        for i,sp in enumerate(self.spls):
+                cfg = self.cfglist[i]
+                sp.clear()
+                if self.wave1==None:  waveidx1=0  # Default to plotting entire spectrum for now
+                else: waveidx1=jbg.closest(cfg.wave,self.wave1)
+                if self.wave2==None:  waveidx2=len(cfg.wave)  # Default to plotting entire spectrum for now
+                else: waveidx2=jbg.closest(cfg.wave,self.wave2)
+                prange=np.arange(waveidx1,waveidx2, dtype='int')
+                if ((len(self.fitpars[0])>0)):
+    
+                    sp.step(cfg.wave,cfg.normflux, where='mid', linestyle='solid')
+                    if self.pixtog==1:
+                        sp.plot(cfg.wave[cfg.fitidx], cfg.normflux[cfg.fitidx], 'gs', markersize=4, mec='green')
+                    model=joebvpfit.voigtfunc(cfg.wave,self.fitpars,fitcfg=cfg)
+                    res=cfg.normflux-model
+                    sp.plot(cfg.wave,model,'r')
+                    if self.restog==1:
+                        sp.plot(cfg.wave,-res,'.',color='black', ms=cfg.residual_markersize)
+                    sp.plot(cfg.wave,[0]*len(cfg.wave),color='gray')
+    
+                    ### label lines we are trying to fit
+                    if self.labeltog==1:
+                        for j in range(len(self.fitpars[0])):
+                            labelloc=self.fitpars[0][j]*(1.+self.fitpars[3][j])+self.fitpars[4][j]/c*self.fitpars[0][j]*(1.+self.fitpars[3][j])
+                            label = ' {:.1f}_\nz{:.4f}'.format(self.fitpars[0][j], self.fitpars[3][j])
+                            sp.text(labelloc, cfg.label_ypos, label, rotation=90, ha='center', va='bottom', clip_on=True, fontsize=cfg.label_fontsize)
+                
+    
+                sp.step(cfg.wave,cfg.normsig,linestyle='solid', where='mid', color='red', lw=0.5)
+                sp.step(cfg.wave,-cfg.normsig,linestyle='solid', where='mid', color='red', lw=0.5)
+                sp.set_ylim(cfg.ylim)
+                sp.set_xlim(cfg.wave[prange[0]],cfg.wave[prange[-1]])
                 sp.set_xlabel('wavelength (A)', fontsize=cfg.xy_fontsize, labelpad=cfg.x_labelpad)
                 sp.set_ylabel('normalized flux', fontsize=cfg.xy_fontsize, labelpad=cfg.y_labelpad)
                 sp.get_xaxis().get_major_formatter().set_scientific(False)

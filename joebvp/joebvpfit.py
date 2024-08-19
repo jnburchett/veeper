@@ -69,7 +69,7 @@ def update_bad_pixels(fitcfg=cfg):
 					(fitcfg.spectrum.sig <= 0)
 					#(cfg.spectrum.flux / cfg.spectrum.sig < cfg.min_sn)  # bad S/N
 	except:
-		import pdb; pdb.set_trace()
+		pass
 	# spectral gaps
 	for gap in fitcfg.spectral_gaps:
 		cond_gap = (fitcfg.spectrum.wavelength >= gap[0]*u.AA) & (fitcfg.spectrum.wavelength <= gap[1]*u.AA)
@@ -83,7 +83,6 @@ def fitpix(wave,pararr,find_bad_pixels=True,fitcfg=cfg):
 		fitcfg.bad_pixels = update_bad_pixels(fitcfg) # this variable stores the indices of bad pixels
 	else:
 		fitcfg.bad_pixels = []
-		
 	ll=pararr[0]
 	lz=pararr[3]
 	lv1=pararr[5]
