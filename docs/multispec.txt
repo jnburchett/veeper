@@ -17,7 +17,7 @@ a list of their filenames (as strings), 2) the `multispec' switch must be set to
 and 3) configuration files for each spectrum must be given as a list of filename
 strings.  
 
-As an example, one can fit two spectra simultaneously as follows:
+As an example, one can start the GUI to fit two spectra simultaneously as follows:
 
 
 from veeper import VPmeasure
