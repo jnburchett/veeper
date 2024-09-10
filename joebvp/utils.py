@@ -500,3 +500,12 @@ def abscomponents_from_abslines(abslinelist, **kwargs):
                                             **kwargs)
         comps.append(thiscomp)
     return comps
+
+def add_continuum(specfile,outfilename):
+    '''Append dummy continuum of 1s for normalized spectra'''
+    from linetools.spectra.io import readspec
+    spec = readspec(specfile)
+    spec.co = np.ones(len(spec.flux))
+    spec.meta['headers'] = [spec.header]
+    spec.write_to_fits(outfilename,clobber=True)
+
