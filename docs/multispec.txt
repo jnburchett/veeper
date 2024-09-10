@@ -1,0 +1,30 @@
+09/10/2024
+
+The Veeper can now fit a set of lines across multiple spectra simultaneously. 
+A key application is fitting several lines that were observed with different 
+instruments, e.g., at low and high spectral resolution. One can use either the 
+graphical user interface or a simple command line interface.  
+
+Regardless of fitting mode, three ingredients are required: the spectra to be fitted
+(in individual files), a Voigt profile parameters file in the Veeper format, and 
+configuration files (one per spectrum provided). As in the single spectrum fitting mode, 
+a configuration file contains identifying information for the instrument and modes used
+to obtain a given spectrum.  
+
+If using the GUI, the multispec mode may be called similarly to the classic single 
+spectrum mode, with a some key differences: 1) the input spectra must be provided as 
+a list of their filenames (as strings), 2) the `multispec' switch must be set to True,
+and 3) configuration files for each spectrum must be given as a list of filename
+strings.  
+
+As an example, one can fit two spectra simultaneously as follows:
+
+
+from veeper import VPmeasure
+
+specfiles = [spec1, spec2]  # spec1 and spec2 are the spectrum filename strings
+cfgs = [cfg1, cfg2]  # cfg1 and cfg2 are the configuration filename strings
+
+VPmeasure.go(specfiles, `VPparfile', multispec=True, cfgfiles=cfgs)
+
+
