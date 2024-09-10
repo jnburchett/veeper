@@ -362,7 +362,7 @@ class Main(QMainWindow, Ui_MainWindow):
         numspec = len(self.cfglist)
         if self.fitpars!=None:
             for cfg in self.cfglist:
-                model=joebvpfit.voigtfunc(cfg.wave,self.datamodel.fitpars,fitcfg=cfg)
+                cfg.model=joebvpfit.voigtfunc(cfg.wave,self.datamodel.fitpars,fitcfg=cfg)
         sg=jbg.subplotgrid(numspec)
         for i,cfg in enumerate(self.cfglist):
             if self.wave1==None:  waveidx1=0  # Default to plotting entire spectrum for now
@@ -375,7 +375,7 @@ class Main(QMainWindow, Ui_MainWindow):
             self.spls[i].step(cfg.wave[pixs],cfg.normflux[pixs],
                               where='mid',linewidth=cfg.spec_linewidth)
             if self.fitpars!=None:
-                self.spls[i].plot(cfg.wave,model,'r')
+                self.spls[i].plot(cfg.wave,cfg.model,'r')
                 self.spls[i].set_xlim(cfg.wave[pixs[0]],cfg.wave[pixs[-1]])
             self.spls[i].set_ylim(cfg.ylim)
             self.spls[i].set_xlabel('wavelength', fontsize=cfg.xy_fontsize,
