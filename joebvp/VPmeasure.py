@@ -403,21 +403,21 @@ class Main(QMainWindow, Ui_MainWindow):
         self.tableView.setModel(self.datamodel)
         self.datamodel.updatedata(self.fitpars,self.fitpars,self.parinfo,self.linecmts)
 
-    def sideplot(self,cenwave,wavebuf=3):
+    def sideplot(self,cenwave,wavebuf=3,cfg=cfg):
         if len(self.sidefig.axes)==0:
             self.sideax=self.sidefig.add_subplot(111)
         self.sideax.clear()
-        self.sideax.step(self.wave, self.normflux, where='mid',
+        self.sideax.step(cfg.wave, cfg.normflux, where='mid',
                          linewidth=cfg.spec_linewidth)
         if self.pixtog == 1:
-            self.sideax.plot(self.wave[cfg.fitidx], self.normflux[cfg.fitidx], 'gs', markersize=4, mec='green')
-        model = joebvpfit.voigtfunc(self.wave, self.fitpars)
-        res = self.normflux - model
-        self.sideax.plot(self.wave, model, 'r')
+            self.sideax.plot(cfg.wave[cfg.fitidx], cfg.normflux[cfg.fitidx], 'gs', markersize=4, mec='green')
+        model = joebvpfit.voigtfunc(cfg.wave, self.fitpars,fitcfg=cfg)
+        res = cfg.normflux - model
+        self.sideax.plot(cfg.wave, model, 'r')
         if self.restog == 1:
-            self.sideax.plot(self.wave, -res, '.', color='black',
+            self.sideax.plot(cfg.wave, -res, '.', color='black',
                              ms=cfg.residual_markersize)
-        self.sideax.plot(self.wave, [0] * len(self.wave), color='gray')
+        self.sideax.plot(cfg.wave, [0] * len(cfg.wave), color='gray')
         self.sideax.set_xlabel('wavelength', fontsize=cfg.xy_fontsize,
                                 labelpad=cfg.x_labelpad)
         self.sideax.set_ylabel('relative flux', fontsize=cfg.xy_fontsize,
@@ -437,8 +437,8 @@ class Main(QMainWindow, Ui_MainWindow):
                 self.sideax.text(labelloc, cfg.label_ypos, label, rotation=90, ha='center', va='bottom',
                                  clip_on=True, fontsize=cfg.label_fontsize)
 
-        self.sideax.step(self.wave, self.normsig, where='mid', color='red', lw=0.5)
-        self.sideax.step(self.wave, -self.normsig, where='mid', color='red', lw=0.5)
+        self.sideax.step(cfg.wave, cfg.normsig, where='mid', color='red', lw=0.5)
+        self.sideax.step(cfg.wave, -cfg.normsig, where='mid', color='red', lw=0.5)
         self.sideax.get_xaxis().get_major_formatter().set_scientific(False)
         self.sideax.get_xaxis().get_major_formatter().set_useOffset(False)
         try:
@@ -450,7 +450,7 @@ class Main(QMainWindow, Ui_MainWindow):
 
     def fitlines(self):
         print('VPmeasure: Fitting line profile(s)...')
-        print(len(self.fitpars[0]),'lines loaded for f  itting.')
+        print(len(self.fitpars[0]),'lines loaded for fitting.')
         if self.fitconvtog:
             if self.multispec:
                 self.fitpars, self.fiterrors = multispecfit.multifit_to_convergence(self.cfglist,self.fitpars,self.parinfo)
@@ -483,7 +483,10 @@ class Main(QMainWindow, Ui_MainWindow):
     def toglabels(self):
         if self.labeltog==1: self.labeltog=0
         else: self.labeltog=1
-        self.updateplot()
+        if self.multispec:
+            self.updateplot_multispec()
+        else:
+            self.updateplot()
 
     def togfitpix(self):
         if self.pixtog == 1:
@@ -634,7 +637,14 @@ class Main(QMainWindow, Ui_MainWindow):
         
     def on_click(self, event):
         self.lastclick=event.xdata
-        self.sideplot(self.lastclick)
+        
+        if self.cfglist is not None:
+            subp = event.inaxes.get_subplotspec()
+            panel = subp.num2     
+            thiscfg = self.cfglist[panel]
+            self.sideplot(self.lastclick,cfg=thiscfg)
+        else:
+            self.sideplot(self.lastclick)
         
     def addmpl(self, fig):
         self.canvas = FigureCanvas(fig)
