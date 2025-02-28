@@ -16,7 +16,7 @@ except:
 import joebvp.atomicdata as atomicdata
 from astropy.io import ascii
 from astropy import units as u
-from scipy import random
+from numpy import random
 import warnings
 import sys
 from linetools import utils as ltu
@@ -72,7 +72,6 @@ def update_bad_pixels(fitcfg=cfg):
 		pass
 	# spectral gaps
 	for gap in fitcfg.spectral_gaps:
-		import pdb; pdb.set_trace()
 		cond_gap = (fitcfg.spectrum.wavelength >= gap[0]*u.AA) & (fitcfg.spectrum.wavelength <= gap[1]*u.AA)
 		cond_badpix = cond_badpix | cond_gap
 	bad_pixels = np.where(cond_badpix)[0]
