@@ -11,7 +11,9 @@ from linetools.lists.linelist import LineList
 
 llist = LineList('ISM')
 
-jbvp_path = imp.find_module('joebvp')[1]
+jvp = importlib.util.find_spec('joebvp')
+jbvp_path = jvp.submodule_search_locations[0]
+#jbvp_path = imp.find_module('joebvp')[1]
 
 vernerlist=np.genfromtxt(jbvp_path+'/atomicdata/verner6.txt',dtype=None,delimiter=[10,8,3,4,3,2,9,6])
 vernlam=jbg.arrfromcol(vernerlist,0)
