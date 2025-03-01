@@ -6,7 +6,7 @@ from linetools.spectralline import AbsLine
 from linetools.lists import parse as lilp
 import astropy.units as u
 from astropy.table import Table
-import imp
+import importlib
 from linetools.lists.linelist import LineList
 
 llist = LineList('ISM')
