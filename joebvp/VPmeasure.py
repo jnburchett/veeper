@@ -295,12 +295,12 @@ class Main(QMainWindow, Ui_MainWindow):
             cfg.spectrum = self.spectrum
             cfg.wave=self.wave
             cfg.normflux=self.normflux
+            cfg.normsig=self.normsig
             cfg.filename=self.specfilename
 
         if not parfilename==None:
             #TODO: deal with this!!!
             self.initialpars(parfilename,self.cfglist)
-
         ### Connect signals to slots
         self.fitButton.clicked.connect(self.fitlines)
         self.fitConvBox.clicked.connect(self.togfitconv)
@@ -397,8 +397,8 @@ class Main(QMainWindow, Ui_MainWindow):
                 fc.fitidx=joebvpfit.fitpix(fc.wave, self.fitpars,fitcfg=fc) #Set pixels for fit
                 fc.wavegroups=[]
         else:
-            fitcfg.fitidx=joebvpfit.fitpix(self.wave, self.fitpars) #Set pixels for fit
-            fitcfg.wavegroups=[]
+            cfg.fitidx=joebvpfit.fitpix(self.wave, self.fitpars) #Set pixels for fit
+            cfg.wavegroups=[]
         self.datamodel = LineParTableModel(self.fitpars,self.fiterrors,self.parinfo,linecmts=self.linecmts)
         self.tableView.setModel(self.datamodel)
         self.datamodel.updatedata(self.fitpars,self.fitpars,self.parinfo,self.linecmts)
@@ -769,7 +769,6 @@ def batch_fit(spec, filelist, outparfile='.VP', outmodelfile='_VPmodel.fits', in
             q_pass += 1
         except:
             print('VPmeasure: Fitting failed:', ff)
-            #import pdb; pdb.set_trace()
             fails += [ff]
             q_fail += 1
     print("")
