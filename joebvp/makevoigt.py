@@ -142,7 +142,7 @@ def convolveprof(wave,profile,fitcfg=cfg):
     else:
         fitwaves=wave
     print(fitcfg.wavegroups)
-    if fitcfg.wavegroups==[]:
+    if len(fitcfg.wavegroups)==0:
         X = np.array(list(zip(fitwaves,np.zeros(len(fitwaves)))), dtype=float)
         ms = MeanShift(bandwidth=25.)
         ms.fit(X)
