@@ -117,10 +117,10 @@ def get_lsfs(lsfcfg=cfg):
                 fg = inds_left + fg.tolist() + inds_right
                 fg = np.array(fg)
                 print("New fg is: {}".format(fg))
-            try:
-                lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(lsfcfg.wave[fg] * u.AA, kind='cubic')
-            except:
-                import pdb; pdb.set_trace()
+            #try:
+            lsf = lsfobjs[lsfmatch[0]].interpolate_to_wv_array(lsfcfg.wave[fg] * u.AA, kind='cubic')
+            #except:
+            #    import pdb; pdb.set_trace()
 
 
             # except:
@@ -141,6 +141,7 @@ def convolveprof(wave,profile,fitcfg=cfg):
             import pdb; pdb.set_trace()
     else:
         fitwaves=wave
+    print(fitcfg.wavegroups)
     if fitcfg.wavegroups==[]:
         X = np.array(list(zip(fitwaves,np.zeros(len(fitwaves)))), dtype=float)
         ms = MeanShift(bandwidth=25.)
