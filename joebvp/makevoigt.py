@@ -141,7 +141,6 @@ def convolveprof(wave,profile,fitcfg=cfg):
             import pdb; pdb.set_trace()
     else:
         fitwaves=wave
-    print(fitcfg.wavegroups)
     if len(fitcfg.wavegroups)==0:
         X = np.array(list(zip(fitwaves,np.zeros(len(fitwaves)))), dtype=float)
         ms = MeanShift(bandwidth=25.)
