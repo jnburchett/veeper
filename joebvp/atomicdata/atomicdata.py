@@ -55,14 +55,22 @@ def closestlam(restwave):
     return lam[0]
 
 def lam2ion(restwave):
+    try: 
+        iter(restwave)
+        for rw in restwave: ions.append(vernion[jbg.closest(vernlam,rw)].strip())
+        return ions
+    except TypeError:
+        ionstr = vernion[jbg.closest(vernlam,restwave)].strip()
+        return ionstr
+    '''
     if (isinstance(restwave,int))|(isinstance(restwave,float)):
         ionstr = vernion[jbg.closest(vernlam,restwave)].strip()
-        #import pdb; pdb.set_trace()
         return ionstr
     else: 
         ions=[]
+        import pdb; pdb.set_trace()
         for rw in restwave: ions.append(vernion[jbg.closest(vernlam,rw)].strip())
-        return ions
+        return ions'''
 
 def lam2osc(restwave):
 
