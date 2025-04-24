@@ -126,7 +126,7 @@ def prepparinfo(linepars,parflags):
 		### adjust b-value limits to allow for broadened HI features
 		lydiff=abs(linepars[0][i] - cfg.lyseries)
 		lymatch = np.where(abs(lydiff)<=0.05)[0]
-		if lymatch:
+		if len(lymatch)>0:
 			parinfo[numpars*i+2]['limits']=[max([cfg.lowblim, bpar - 10.]), min([bpar + 10, cfg.upperblim_HI])]
 		else:
 			parinfo[numpars*i+2]['limits']=[max([cfg.lowblim, bpar - 10.]), min([bpar + 10, cfg.upperblim])]
