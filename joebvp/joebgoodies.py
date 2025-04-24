@@ -9,12 +9,19 @@ import warnings
 
 ### Return index of array element closest to value
 def closest(arr,value):
-    if (isinstance(value,int)|isinstance(value,float)):
+    try:
+        iter(value)
+        idx=[]
+        for val in value: idx.append((np.abs(arr-val)).argmin())
+    except TypeError:
+        idx = (np.abs(arr-value)).argmin()
+    return idx
+    '''if (isinstance(value,int)|isinstance(value,float)):
         idx = (np.abs(arr-value)).argmin()
     else:
         idx=[]
         for val in value: idx.append((np.abs(arr-val)).argmin())
-    return idx
+    return idx'''
 
 ### Transform wavelength into velocity space centered on some line
 def veltrans(redshift,waves,line):
