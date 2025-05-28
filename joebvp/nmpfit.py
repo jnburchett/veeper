@@ -898,7 +898,7 @@ e.g. mpfit.status, mpfit.errmsg, mpfit.params, npfit.niter, mpfit.covar.
 
         ## Make sure parameters are numpy arrays of type numpy.float
         #print 'xall', xall, type(xall)
-        xall = numpy.asarray(xall, numpy.float32)
+        xall = numpy.asarray(xall, numpy.float64)
 
         npar = len(xall)
         self.fnorm  = -1.
@@ -1332,18 +1332,16 @@ e.g. mpfit.status, mpfit.errmsg, mpfit.params, npfit.niter, mpfit.covar.
                 cv = self.calc_covar(fjac[0:n,0:n], ipvt[0:n])
                 cv.shape = [n, n]
                 nn = len(xall)
-
                 ## Fill in actual covariance matrix, accounting for fixed
                 ## parameters.
-                self.covar = numpy.zeros([nn, nn], numpy.float32)
-
+                self.covar = numpy.zeros([nn, nn], numpy.float64)
                 for i in range(n):
                     indices = ifree+ifree[i]*nn
                     numpy.put(self.covar, indices, cv[:,i])
                     #numpy.put(self.covar, i, cv[:,i])
                 ## Compute errors in parameters
                 catch_msg = 'computing parameter errors'
-                self.perror = numpy.zeros(nn, numpy.float32)
+                self.perror = numpy.zeros(nn, numpy.float64)
                 d = numpy.diagonal(self.covar)
                 wh = (numpy.nonzero(d >= 0) )[0]
                 if len(wh) > 0:
@@ -1417,7 +1415,7 @@ e.g. mpfit.status, mpfit.errmsg, mpfit.params, npfit.niter, mpfit.covar.
         if (type(test) == int):
             values = numpy.asarray(values, dtype=numpy.int32)
         elif (type(test) == float):
-            values = numpy.asarray(values, dtype=numpy.float32)
+            values = numpy.asarray(values, dtype=numpy.float64)
         return(values)
 
 
@@ -1490,7 +1488,7 @@ e.g. mpfit.status, mpfit.errmsg, mpfit.params, npfit.niter, mpfit.covar.
         ## Compute analytical derivative if requested
         if (autoderivative == 0):
             mperr = 0
-            fjac = numpy.zeros(nall, numpy.float32)
+            fjac = numpy.zeros(nall, numpy.float64)
             numpy.put(fjac, ifree, 1.0)  ## Specify which parameters need derivatives
             [status, fp] = self.call(fcn, xall, functkw, fjac=fjac)
 
@@ -1509,7 +1507,7 @@ e.g. mpfit.status, mpfit.errmsg, mpfit.params, npfit.niter, mpfit.covar.
                 fjac.shape = [m, n]
                 return(fjac)
 
-        fjac = numpy.zeros([m, n], numpy.float32)
+        fjac = numpy.zeros([m, n], numpy.float64)
 
         h = eps * abs(x)
 
@@ -1698,7 +1696,7 @@ e.g. mpfit.status, mpfit.errmsg, mpfit.params, npfit.niter, mpfit.covar.
         n = sz[1]
 
         ## Compute the initial column norms and initialize arrays
-        acnorm = numpy.zeros(n, numpy.float32)
+        acnorm = numpy.zeros(n, numpy.float64)
         for j in range(n):
             acnorm[j] = self.enorm(a[:,j])
         rdiag = acnorm.copy()

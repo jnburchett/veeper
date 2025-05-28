@@ -204,5 +204,4 @@ def convolveprof(wave,profile,fitcfg=cfg):
             paddedprof=np.append(paddedprof,[1.]*lsfwidth)
             convprof[ll] = convolve(paddedprof, fitcfg.lsfs[i], mode='same')[lsfwidth:-lsfwidth]
 
-
     return convprof

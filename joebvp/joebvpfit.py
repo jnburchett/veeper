@@ -6,7 +6,6 @@ import joebvp.joebgoodies as jbg
 
 # from stsci.tools import nmpfit
 from joebvp import nmpfit
-from joebvp import utils
 from joebvp import makevoigt
 try:
 	import joebvp_cfg as cfg
@@ -165,13 +164,12 @@ def joebvpfit(wave,flux,sig,linepars,flags):
 	partofit=unfoldpars(partofit)
 	modelvars={'x':wave,'y':flux,'err':sig}
 	# Do the fit and translate the parameters back into the received format
-	m=nmpfit.mpfit(voigterrfunc,partofit,functkw=modelvars,parinfo=parinfo,nprint=1,quiet=0,fastnorm=1,ftol=1e-10,xtol=xtol,gtol=gtol)
+	m=nmpfit.mpfit(voigterrfunc,partofit,functkw=modelvars,parinfo=parinfo,nprint=1,quiet=0,fastnorm=0,ftol=1e-10,xtol=xtol,gtol=gtol)
 	if m.status <= 0: print('Fitting error:',m.errmsg)
 	fitpars=foldpars(m.params)
 	fiterrors = foldpars(m.perror)
 	# Add velocity windows back to parameter array
 	fitpars.append(vlim1) ; fitpars.append(vlim2)
-
 
 	print('\nFit results: \n')
 	for i in range(len(fitpars[0])):
@@ -574,6 +572,9 @@ def writeVPmodel(outfile, wave, fitpars, normflux, normsig):
 def writeVPmodelByComp(outdir, spectrum, fitpars):
 	import copy
 	import os,glob
+	from joebvp import utils
+
+	print(cfg.spectrum)
 	if cfg.spectrum == []:
 		cfg.spectrum = spectrum
 	os.mkdir(outdir)
