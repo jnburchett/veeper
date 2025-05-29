@@ -625,7 +625,10 @@ def modelFromAbsComp(spectrum,abscomp):
 		restwaves.append(absline.wrest.value)
 		zs.append(absline.z)
 		cols.append(absline.attrib['logN'])
-		bs.append(absline.attrib['b'])
+		try:
+			bs.append(absline.attrib['b'].value)
+		except ValueError:
+			bs.append(absline.attrib['b'])
 		vels.append(np.mean(absline.limits.vlim).value)
 		vlim1s.append(absline.limits.vlim[0].value)
 		vlim2s.append(absline.limits.vlim[1].value)

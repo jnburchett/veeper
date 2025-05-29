@@ -10,7 +10,7 @@ from linetools.lists.linelist import LineList
 from astropy.table import Table,vstack
 from astropy.io import ascii
 try:
-    import joebvp_cfg
+    import joebvp_cfg as cfg
 except:
     print("joebvp.utils: No local joebvp_cfg.py found, using default cfg.py file from joebvp.")
     import joebvp.cfg as cfg
@@ -190,7 +190,7 @@ def abslines_from_fitpars(fitpars,ra=None,dec=None,linelist=None):
         ### Set other parameters
         line.attrib['logN'] = fitpars[1][i]
         #line.attrib['sig_N'] = colerr
-        line.attrib['b'] = fitpars[2][i]
+        line.attrib['b'] = fitpars[2][i] * u.km/u.s
         #line.attrib['sig_b'] = berr
         line.analy['spec']=cfg.spectrum
         line.attrib['flag_N'] = 1
