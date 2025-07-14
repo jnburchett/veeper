@@ -38,14 +38,14 @@ def Hfunc(x,a):
     I=wofz(z).real
     return I
 
-def cosvoigt(vwave,vpars):
+def cosvoigt(vwave,vpars,fitcfg=cfg):
     from joebvp import joebvpfit
     pars,info=joebvpfit.initlinepars(vpars[3],vpars[0],vpars,initinfo=[0,0,0])
-    cfg.fitidx=joebvpfit.fitpix(vwave, pars)
-    cfg.wave=vwave
+    fitcfg.fitidx=joebvpfit.fitpix(vwave, pars)
+    fitcfg.wave=vwave
     vflux=np.zeros(len(vwave))+1.
     factor=voigt(vwave,vpars[0],vpars[1],vpars[2],vpars[3],vpars[4])
-    convfactor=convolveprof(vwave,factor,vpars[0],vpars[3])
+    convfactor=convolveprof(vwave,factor,fitcfg)
     vflux*=convfactor
     return vflux
 
