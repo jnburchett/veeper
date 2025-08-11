@@ -7,6 +7,7 @@ from linetools.lists import parse as lilp
 from linetools.lists.linelist import LineList
 import astropy.units as u
 import importlib
+from astropy.table import Table
 
 ilist = LineList('ISM')
 
@@ -14,20 +15,19 @@ jvp = importlib.util.find_spec('joebvp')
 jbvp_path = jvp.submodule_search_locations[0]
 # jbvp_path = imp.find_module('joebvp')[1]
 
-vernerlist=np.genfromtxt(jbvp_path+'/atomicdata/verner6.txt',dtype=None,delimiter=[10,8,3,4,3,2,9,6])
-vernlam=jbg.arrfromcol(vernerlist,0)
-vernion=jbg.arrfromcol(vernerlist,1)
-vernzatom=jbg.arrfromcol(vernerlist,2)
-vernnume=jbg.arrfromcol(vernerlist,3)
-verngl=jbg.arrfromcol(vernerlist,4)
-verngu=jbg.arrfromcol(vernerlist,5)
-vernosc=jbg.arrfromcol(vernerlist,6)
-vernp=jbg.arrfromcol(vernerlist,7)
+verntab = Table.read(jbvp_path+'/atomicdata/verner6_formatted.dat')
+vernlam = verntab['lambda']
+vernion = verntab['ion']
+vernzatom = verntab['Z']
+vernnume = verntab['num_e'] 
+verngl = verntab['gl']
+verngu = verntab['gu']
+vernosc = verntab['fosc']
+vernp = verntab['P']
 
 # A start to using the linetools atomic data framework
 adata=lilp.parse_morton03()
 vdata=lilp.parse_verner96()
-
 
 for i in range(len(vernion)):
     vernion[i]=vernion[i].strip()
@@ -113,3 +113,34 @@ def ion2laminrange(ion,wave1,wave2,z=0.,frame='obs',pthresh=9.5):
            return vernlam[linesinrange]*(1.+z)
         if frame=='rest':
            return vernlam[linesinrange]
+        
+def convert_verner_table(vernfile):
+    '''Later versions of Python seem to be deprecating genfromtxt, 
+     so make the data readable as an Astropy Table 
+     
+     Inputs:
+     vernfile: str
+    '''
+    vernerlist=np.genfromtxt(jbvp_path+'/atomicdata/verner6.txt',dtype=None,delimiter=[10,8,3,4,3,2,9,6])
+    vernlam=jbg.arrfromcol(vernerlist,0)
+    vernion=jbg.arrfromcol(vernerlist,1)
+    vernzatom=jbg.arrfromcol(vernerlist,2)
+    vernnume=jbg.arrfromcol(vernerlist,3)
+    verngl=jbg.arrfromcol(vernerlist,4)
+    verngu=jbg.arrfromcol(vernerlist,5)
+    vernosc=jbg.arrfromcol(vernerlist,6)
+    vernp=jbg.arrfromcol(vernerlist,7)
+
+    verntab = Table()
+    verntab['lambda'] = vernlam
+    verntab['ion'] = vernion
+    verntab['Z'] = vernzatom
+    verntab['num_e'] = vernnume
+    verntab['gl'] = verngl
+    verntab['gu'] = verngu
+    verntab['fosc'] = vernosc
+    verntab['P'] = vernp
+
+    verntab.write(jbvp_path+'/atomicdata/verner6_formatted.dat',format='ascii')
+
+
