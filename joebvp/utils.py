@@ -3,7 +3,7 @@ from __future__ import print_function, absolute_import, division, unicode_litera
 import numpy as np
 from matplotlib import pyplot as plt
 from joebvp import makevoigt
-from joebvp import atomicdata
+from joebvp.atomicdata import atomicdata
 from linetools.spectra.io import readspec
 from linetools.spectra.xspectrum1d import XSpectrum1D
 from linetools.lists.linelist import LineList

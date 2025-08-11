@@ -62,18 +62,8 @@ def lam2ion(restwave):
     except TypeError:
         ionstr = vernion[jbg.closest(vernlam,restwave)].strip()
         return ionstr
-    '''
-    if (isinstance(restwave,int))|(isinstance(restwave,float)):
-        ionstr = vernion[jbg.closest(vernlam,restwave)].strip()
-        return ionstr
-    else: 
-        ions=[]
-        import pdb; pdb.set_trace()
-        for rw in restwave: ions.append(vernion[jbg.closest(vernlam,rw)].strip())
-        return ions'''
 
 def lam2osc(restwave):
-
     return round(vernosc[jbg.closest(vernlam,restwave)],3)
 
 def lam2vernp(restwave):

@@ -3,7 +3,7 @@ from __future__ import print_function, absolute_import, division, unicode_litera
 
 import numpy as np
 from joebvp import joebgoodies
-import joebvp.atomicdata as ad
+from joebvp.atomicdata import atomicdata
 import numpy.polynomial.legendre as L
 from joebvp import cfg
 from scipy import stats
@@ -248,8 +248,8 @@ def EW_ACD_array(wave,flux,ferr,cont,conterr,restlam,zabs,vellim=[-50,50],**kwar
 
     ### Set atomic data and constants
     c = 299792.458
-    restlam=ad.closestlam([restlam])
-    osc=ad.lam2osc([restlam])
+    restlam=atomicdata.closestlam([restlam])
+    osc=atomicdata.lam2osc([restlam])
 
     ### Transform to velocity space
     vel=joebgoodies.veltrans(zabs,wave,restlam)

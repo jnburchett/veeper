@@ -1,4 +1,4 @@
-from __future__ import print_function, absolute_import, division, unicode_literals
+'''from __future__ import print_function, absolute_import, division, unicode_literals
 
 from .. import joebgoodies as jbg
 import numpy as np
@@ -82,3 +82,4 @@ def lam2vernp(restwave):
         return round(vernp[jbg.closest(vernlam,restwave)],2)
     else:
         return vernp[jbg.closest(vernlam,restwave)].round(2)
+'''
